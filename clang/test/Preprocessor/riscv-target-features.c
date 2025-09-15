@@ -1721,3 +1721,56 @@
 // RUN: %clang --target=riscv64-unknown-linux-gnu -mcpu=sifive-p450 -E -dM %s \
 // RUN:  -o - | FileCheck %s --check-prefix=CHECK-MISALIGNED-FAST
 // CHECK-MISALIGNED-FAST: __riscv_misaligned_fast 1
+
+// profiles
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva20s64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA20S64 %s
+// CHECK-PROFILE-RVA20S64: __riscv_rva20s64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva20u64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA20U64 %s
+// CHECK-PROFILE-RVA20U64: __riscv_rva20u64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva22s64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA22S64 %s
+// CHECK-PROFILE-RVA22S64: __riscv_rva22s64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva22u64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA22U64 %s
+// CHECK-PROFILE-RVA22U64: __riscv_rva22u64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva23s64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA23S64 %s
+// CHECK-PROFILE-RVA23S64: __riscv_rva23s64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rva23u64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVA23U64 %s
+// CHECK-PROFILE-RVA23U64: __riscv_rva23u64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rvb23s64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVB23S64 %s
+// CHECK-PROFILE-RVB23S64: __riscv_rvb23s64 1
+
+// RUN: %clang --target=riscv64 -menable-experimental-extensions \
+// RUN:   -march=rvb23u64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVB23U64 %s
+// CHECK-PROFILE-RVB23U64: __riscv_rvb23u64 1
+
+// RUN: %clang --target=riscv32 -menable-experimental-extensions \
+// RUN:   -march=rvi20u32 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVI20U32 %s
+// CHECK-PROFILE-RVI20U32: __riscv_rvi20u32 1
+
+// RUN: %clang --target=riscv32 -menable-experimental-extensions \
+// RUN:   -march=rvi20u64 -E -dM %s \
+// RUN:   -o - | FileCheck --check-prefix=CHECK-PROFILE-RVI20U64 %s
+// CHECK-PROFILE-RVI20U64: __riscv_rvi20u64 1
+

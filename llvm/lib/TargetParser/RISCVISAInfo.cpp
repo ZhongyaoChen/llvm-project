@@ -1076,3 +1076,39 @@ std::pair<int, int> RISCVISAInfo::getRISCVFeaturesBitsInfo(StringRef Ext) {
       return std::make_pair(E.GroupID, E.BitPosition);
   return std::make_pair(-1, -1);
 }
+
+StringRef RISCVISAInfo::getProfileName() const {
+  StringRef BestName;
+  size_t MaxExts = 0;
+  for (const auto &Profile : SupportedProfiles) {
+    auto ProfileISAInfo = parseArchString(Profile.MArch, true);
+    if (!ProfileISAInfo) {
+      consumeError(ProfileISAInfo.takeError());
+      continue;
+    }
+    const RISCVISAInfo &ProfileInfo = **ProfileISAInfo;
+    // Check XLen match
+    if (XLen != ProfileInfo.XLen) {
+      continue;
+    }
+    // Check if current Exts contains all of Profile's Exts
+    bool Matches = true;
+    for (const auto &ProfileExt : ProfileInfo.Exts) {
+      StringRef ExtName = ProfileExt.first;
+      if (!hasExtension(ExtName)) {
+        Matches = false;
+        break;
+      }
+    }
+    if (Matches) {
+      size_t ProfileExtCount = ProfileInfo.Exts.size();
+      // Update best if more extensions
+      if (ProfileExtCount > MaxExts) {
+        MaxExts = ProfileExtCount;
+        BestName = Profile.Name;
+      }
+    }
+  }
+  return BestName; // Empty if none
+}
+

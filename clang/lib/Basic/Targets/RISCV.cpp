@@ -260,6 +260,12 @@ void RISCVTargetInfo::getTargetDefines(const LangOptions &Opts,
                        "transformed to other scheme");
     }
   }
+
+  // Define __riscv_<profile> if profile is present
+  StringRef Profile = ISAInfo->getProfileName();
+  if (!Profile.empty()) {
+    Builder.defineMacro(Twine("__riscv_") + Profile);
+  }
 }
 
 static constexpr int NumRVVBuiltins =

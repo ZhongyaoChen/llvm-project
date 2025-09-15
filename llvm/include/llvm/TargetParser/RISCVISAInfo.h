@@ -89,6 +89,9 @@ public:
   // The maximum value of the group ID obtained from getRISCVFeaturesBitsInfo.
   static constexpr unsigned FeatureBitSize = 2;
 
+  // Return the most expansive RISC-V profile name that this ISA conforms to.
+  StringRef getProfileName() const;
+
 private:
   RISCVISAInfo(unsigned XLen) : XLen(XLen) {}
 
